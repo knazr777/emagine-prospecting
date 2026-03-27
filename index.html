@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="utf-8">
+  <title>Prospecting — emagine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #0f1f35;
+      --navy-mid: #1a3050;
+      --navy-light: #2a4a6e;
+      --accent: #3d8ef0;
+      --accent-dim: rgba(61,142,240,0.12);
+      --gold: #e8b86d;
+      --bg: #f0eff0;
+      --surface: #ffffff;
+      --dark: #0f1f35;
+      --muted: #7a8599;
+      --border: #e2e6ed;
+      --pill-bg: #f0f3f8;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      min-height: 100vh;
+      color: var(--dark);
+    }
+
+    /* HEADER */
+    .header {
+      background: var(--navy);
+      padding: 2.5rem 2rem 4.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      top: -60px; right: -60px;
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(61,142,240,0.15) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-inner {
+      max-width: 640px;
+      margin: 0 auto;
+      position: relative;
+    }
+
+    .logo {
+      font-family: 'DM Serif Display', serif;
+      font-size: 0.9rem;
+      color: var(--gold);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      opacity: 0.9;
+    }
+
+    .header h1 {
+      font-family: 'DM Serif Display', serif;
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: #fff;
+      line-height: 1.15;
+    }
+
+    .header h1 em {
+      font-style: italic;
+      color: var(--gold);
+    }
+
+    .header p {
+      color: rgba(255,255,255,0.5);
+      font-size: 0.9rem;
+      margin-top: 0.6rem;
+      font-weight: 300;
+    }
+
+    /* MAIN */
+    .container {
+      max-width: 640px;
+      margin: 0 auto;
+      padding: 0 1.5rem 5rem;
+    }
+
+    .form-card {
+      background: var(--surface);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 8px 48px rgba(15,31,53,0.1);
+      margin-top: -2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .form-section { margin-bottom: 1.6rem; }
+
+    .form-label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin-bottom: 0.5rem;
+    }
+
+    input[type="text"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.8rem 1rem;
+      border: 1.5px solid var(--border);
+      border-radius: 10px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.95rem;
+      color: var(--dark);
+      background: var(--bg);
+      transition: border-color 0.2s, box-shadow 0.2s;
+      appearance: none;
+      -webkit-appearance: none;
+    }
+
+    select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237a8599' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      padding-right: 2.5rem;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+      line-height: 1.6;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+      background: #fff;
+    }
+
+    /* PILL BUTTONS */
+    .pill-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .pill-group input[type="radio"],
+    .pill-group input[type="checkbox"] {
+      display: none;
+    }
+
+    .pill-group label {
+      padding: 0.5rem 1rem;
+      border-radius: 999px;
+      border: 1.5px solid var(--border);
+      font-size: 0.875rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      background: var(--pill-bg);
+      color: var(--muted);
+      user-select: none;
+      font-weight: 500;
+    }
+
+    .pill-group input:checked + label {
+      background: var(--navy);
+      border-color: var(--navy);
+      color: #fff;
+    }
+
+    .pill-group label:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    /* DIVIDER */
+    .section-title {
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--muted);
+      margin: 2rem 0 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* SUBMIT */
+    .btn-submit {
+      width: 100%;
+      padding: 1rem;
+      background: var(--navy);
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit:hover { background: var(--navy-light); }
+    .btn-submit:active { transform: scale(0.99); }
+    .btn-submit:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    /* WYNIKI */
+    .results-area {
+      margin-top: 2rem;
+    }
+
+    .result-card {
+      background: var(--surface);
+      border-radius: 16px;
+      padding: 2rem;
+      box-shadow: 0 4px 32px rgba(15,31,53,0.07);
+      margin-bottom: 1.5rem;
+      animation: fadeIn 0.4s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.25rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .result-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .result-meta strong {
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .btn-send {
+      padding: 0.5rem 1.2rem;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.15s;
+      white-space: nowrap;
+    }
+
+    .btn-send:hover { background: #2a7ae0; }
+    .btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-send.sent { background: #2ecc71; }
+
+    .result-content {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--dark);
+    }
+
+    .result-content h1,
+    .result-content h2,
+    .result-content h3 {
+      margin: 1rem 0 0.4rem;
+      font-size: 0.95rem;
+      color: var(--navy);
+      font-weight: 600;
+    }
+
+    .result-content p { margin-bottom: 0.6rem; }
+    .result-content ul, .result-content ol { padding-left: 1.4rem; margin-bottom: 0.6rem; }
+    .result-content li { margin-bottom: 0.25rem; }
+    .result-content strong { color: var(--navy); }
+
+    .loading {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      color: var(--muted);
+      font-size: 0.9rem;
+      padding: 1.5rem 2rem;
+      background: var(--surface);
+      border-radius: 16px;
+      box-shadow: 0 4px 32px rgba(15,31,53,0.07);
+    }
+
+    .spinner {
+      width: 18px; height: 18px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      flex-shrink: 0;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .generate-counter {
+      text-align: center;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.75rem;
+    }
+
+    .counter-dots {
+      display: inline-flex;
+      gap: 4px;
+      margin-right: 6px;
+    }
+
+    .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+      transition: background 0.2s;
+    }
+
+    .dot.used { background: var(--border); }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-inner">
+    <div class="logo">emagine — Sales Intelligence</div>
+    <h1>Przygotuj outreach<br><em>dla swojego prospekta</em></h1>
+    <p>Uzupełnij dane — AI przygotuje maile i notatki do cold calla.</p>
+  </div>
+</div>
+
+<div class="container">
+  <div class="form-card">
+    <form id="form">
+
+      <div class="section-title">Firma</div>
+
+      <div class="form-section">
+        <label class="form-label" for="nazwa_firmy">Nazwa firmy</label>
+        <input type="text" id="nazwa_firmy" name="nazwa_firmy" placeholder="np. Allegro, CD Projekt, Żabka Tech" required />
+      </div>
+
+      <div class="form-section">
+        <label class="form-label" for="kraj">Kraj klienta</label>
+        <select id="kraj" name="kraj">
+          <option value="Polska">🇵🇱 Polska</option>
+          <option value="Niemcy">🇩🇪 Niemcy</option>
+          <option value="Dania">🇩🇰 Dania</option>
+          <option value="Szwecja">🇸🇪 Szwecja</option>
+          <option value="Wielka Brytania">🇬🇧 Wielka Brytania</option>
+          <option value="Francja">🇫🇷 Francja</option>
+          <option value="inne">🌍 Inne</option>
+        </select>
+      </div>
+
+      <div class="section-title">Osoba kontaktowa</div>
+
+      <div class="form-section">
+        <label class="form-label">Rola osoby kontaktowej</label>
+        <div class="pill-group">
+          <input type="radio" name="rola" id="r-cto" value="CTO" checked>
+          <label for="r-cto">CTO</label>
+          <input type="radio" name="rola" id="r-vp" value="VP Engineering">
+          <label for="r-vp">VP Engineering</label>
+          <input type="radio" name="rola" id="r-hr" value="HR Director">
+          <label for="r-hr">HR Director</label>
+          <input type="radio" name="rola" id="r-ceo" value="CEO">
+          <label for="r-ceo">CEO</label>
+          <input type="radio" name="rola" id="r-pm" value="Procurement Manager">
+          <label for="r-pm">Procurement</label>
+          <input type="radio" name="rola" id="r-other" value="Decision Maker">
+          <label for="r-other">Inne</label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="form-label">Płeć (ton zwrotu)</label>
+        <div class="pill-group">
+          <input type="radio" name="plec" id="p-m" value="male" checked>
+          <label for="p-m">Mężczyzna</label>
+          <input type="radio" name="plec" id="p-f" value="female">
+          <label for="p-f">Kobieta</label>
+          <input type="radio" name="plec" id="p-n" value="neutral">
+          <label for="p-n">Neutralnie</label>
+        </div>
+      </div>
+
+      <div class="section-title">Outreach</div>
+
+      <div class="form-section">
+        <label class="form-label">Co generujemy?</label>
+        <div class="pill-group">
+          <input type="radio" name="typ" id="t-all" value="email_and_call" checked>
+          <label for="t-all">Maile + cold call</label>
+          <input type="radio" name="typ" id="t-email" value="email_only">
+          <label for="t-email">Tylko maile</label>
+          <input type="radio" name="typ" id="t-call" value="call_only">
+          <label for="t-call">Tylko cold call</label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="form-label">Język outreachu</label>
+        <div class="pill-group">
+          <input type="radio" name="jezyk" id="j-en" value="English" checked>
+          <label for="j-en">🇬🇧 English</label>
+          <input type="radio" name="jezyk" id="j-pl" value="Polish">
+          <label for="j-pl">🇵🇱 Polski</label>
+
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="form-label">Styl maila</label>
+        <div class="pill-group">
+          <input type="radio" name="styl" id="s-direct" value="direct and concise" checked>
+          <label for="s-direct">Konkretny</label>
+          <input type="radio" name="styl" id="s-warm" value="warm and conversational">
+          <label for="s-warm">Na luzie</label>
+          <input type="radio" name="styl" id="s-formal" value="formal and professional">
+          <label for="s-formal">Formalny</label>
+          <input type="radio" name="styl" id="s-bold" value="bold and provocative">
+          <label for="s-bold">Odważny</label>
+        </div>
+      </div>
+
+      <div class="form-section">
+        <label class="form-label" for="kontekst">Dodatkowy kontekst (opcjonalnie)</label>
+        <textarea id="kontekst" name="kontekst" placeholder="np. Rozmawiałem już z tą firmą, znają emagine. Szukają ekspertów Java."></textarea>
+      </div>
+
+      <div class="section-title">Wyślij wyniki do</div>
+
+      <div class="form-section">
+        <label class="form-label" for="email">Wybierz swoje imię</label>
+        <select id="email" name="email" required>
+          <option value="">— wybierz —</option>
+          <option value="mszymczyk@emagine.pl">Mikołaj</option>
+          <option value="amilczarek@emagine.pl">Ania</option>
+          <option value="oradzanowska@emagine.pl">Olga</option>
+          <option value="pkobus@emagine.pl">Paulina</option>
+          <option value="mapr@emagine.pl">Magda</option>
+          <option value="mkarbowniczek@emagine.pl">Marta</option>
+          <option value="knazar@emagine.pl">Krystian</option>
+          <option value="jzukowska@emagine.pl">Julia</option>
+        </select>
+      </div>
+
+      <button type="submit" class="btn-submit" id="btn-submit">Generuj outreach →</button>
+      <div class="generate-counter" id="counter" style="display:none">
+        <span class="counter-dots"><span class="dot" id="d1"></span><span class="dot" id="d2"></span></span>
+        Pozostało generowań: <span id="left">2</span>/2
+      </div>
+
+    </form>
+  </div>
+
+  <div class="results-area" id="results-area"></div>
+</div>
+
+<script>
+  const WEBHOOK_URL = 'http://localhost:5678/webhook-test/3749a820-acf0-4ccd-a79b-46a30f60c9d1';
+  let generateCount = 0;
+  const MAX_GENERATES = 2;
+
+  const form = document.getElementById('form');
+  const btn = document.getElementById('btn-submit');
+  const resultsArea = document.getElementById('results-area');
+  const counter = document.getElementById('counter');
+
+  function updateCounter() {
+    const left = MAX_GENERATES - generateCount;
+    document.getElementById('left').textContent = left;
+    document.getElementById('d1').classList.toggle('used', generateCount >= 1);
+    document.getElementById('d2').classList.toggle('used', generateCount >= 2);
+    counter.style.display = 'block';
+    if (generateCount >= MAX_GENERATES) {
+      btn.disabled = true;
+      btn.textContent = 'Limit generowań wyczerpany';
+    }
+  }
+
+  function addLoadingCard() {
+    const el = document.createElement('div');
+    el.className = 'loading';
+    el.innerHTML = '<div class="spinner"></div>Analizuję firmę i przygotowuję outreach...';
+    resultsArea.prepend(el);
+    return el;
+  }
+
+  function addResultCard(text, firma, email) {
+    const card = document.createElement('div');
+    card.className = 'result-card';
+
+    const ts = new Date().toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit' });
+
+    card.innerHTML = `
+      <div class="result-header">
+        <div class="result-meta">
+          <strong>${firma}</strong> · ${ts}
+        </div>
+        <button class="btn-send" data-text="${encodeURIComponent(text)}" data-email="${email}" data-firma="${firma}">
+          Wyślij na maila →
+        </button>
+      </div>
+      <div class="result-content">${marked.parse(text)}</div>
+    `;
+
+    card.querySelector('.btn-send').addEventListener('click', async function() {
+      const sendBtn = this;
+      sendBtn.disabled = true;
+      sendBtn.textContent = 'Wysyłam...';
+
+      try {
+        await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            action: 'send_email',
+            email: sendBtn.dataset.email,
+            firma: sendBtn.dataset.firma,
+            content: decodeURIComponent(sendBtn.dataset.text)
+          })
+        });
+        sendBtn.classList.add('sent');
+        sendBtn.textContent = '✓ Wysłano';
+      } catch {
+        sendBtn.disabled = false;
+        sendBtn.textContent = 'Błąd — spróbuj ponownie';
+      }
+    });
+
+    return card;
+  }
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    if (generateCount >= MAX_GENERATES) return;
+
+    const data = Object.fromEntries(new FormData(form));
+
+    if (!data.email) {
+      alert('Wybierz swoje imię z listy.');
+      return;
+    }
+
+    generateCount++;
+    updateCounter();
+    btn.textContent = 'Generuję...';
+    btn.disabled = true;
+
+    const loader = addLoadingCard();
+    resultsArea.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    try {
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const text = await res.text();
+      loader.remove();
+
+      const card = addResultCard(text, data.nazwa_firmy, data.email);
+      resultsArea.prepend(card);
+      card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+    } catch {
+      loader.innerHTML = '<p style="color:#c0392b;padding:0.5rem">Coś poszło nie tak. Sprawdź czy n8n działa.</p>';
+    } finally {
+      if (generateCount < MAX_GENERATES) {
+        btn.disabled = false;
+        btn.textContent = 'Generuj ponownie →';
+      }
+    }
+  });
+</script>
+
+</body>
+</html>
